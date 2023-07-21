@@ -1,0 +1,13 @@
+{% extends 'bases/base.html' %} {% load static %} {% load crispy_forms_tags %} {% block 'head' %} {% endblock %} {% block 'body' %} {% block 'perfil' %} {% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 m-auto">
+            <div class="display-6 text-center">Login</div>
+            <form method="post">
+                {% csrf_token %} {{ form|crispy }}
+                <button class="btn btn-success mt-3" type="submit">Entrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
