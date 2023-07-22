@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a,
+button {
+    text-decoration: none !important;
+}
+
+.icons {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+input {
+    margin-bottom: 20px !important;
+}
+
+@media (max-width: 990px) {
+    #desktop-profile {
+        display: none;
+    }
+    #mobile-profile {
+        display: block;
+    }
+}
+
+@media (min-width: 991px) {
+    #mobile-profile {
+        display: none;
+    }
+}
+
+.scrollbar {
+    Overflow-y: scroll;
+    height: 170px;
+}

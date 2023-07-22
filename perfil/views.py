@@ -1,7 +1,10 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+
+@login_required()
+def home(request):
+    return render(request, 'home.html')
 
 @login_required()
 def meu_perfil(request):

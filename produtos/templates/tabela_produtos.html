@@ -1,0 +1,75 @@
+{% extends 'bases/base.html' %} {% load static %} {% load crispy_forms_tags %} {% block 'head' %} {% endblock %} {% block 'buttons' %}
+<div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#">Caixa</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Orçamentos/Pedidos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'cadastrar_cliente' %}">Clientes</a>
+        </li>
+    </ul>
+</div>
+
+{% endblock %} {% block 'body' %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 m-auto">
+            <div class="display-6 text-center mb-3 mt-4">Cadastro de produtos</div>
+            <form action="" method="POST">
+                {% csrf_token %} {{ form|crispy }}
+                
+                
+
+                <button class="btn btn-success mt-2 mb-4" type="submit">Cadastrar</button>
+
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="table-responsive scrollbar">
+            <table class="table table-secondary">
+                <thead>
+                    <tr>
+                        <th class="ps-lg-5 ps-md-4">Nome</th>
+                        <th>Valor de custo</th>
+                        <th>Margem de lucro</th>
+                        <th>Valor de venda</th>
+                        <th>Opções</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+
+                    {% for produto in object_list %}
+                    <tr>
+                        <td class="ps-lg-5 ps-md-4">{{ produto.nome }}</td>
+                        <td>{{ produto.valorCusto }}</td>
+                        <td>{{ produto.margemCusto }}</td>
+                        <td>{{ produto.valorVenda }}</td>
+                        <td>
+                            <a href="{% url 'update_produto' produto.pk  %}" title="Editar" style="color: black;">
+                                <ion-icon class="icons" name="create-outline"></ion-icon>
+                            </a>
+                            <a href="{% url 'delete_produto' produto.pk  %}" title="Excluir" style="color: black;">
+                                <ion-icon class="icons" name="trash-outline"></ion-icon>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">Nenhum campo registrado</td>
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
