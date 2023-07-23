@@ -5,7 +5,7 @@
             <a class="nav-link" href="#">Caixa</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Produtos</a>
+            <a class="nav-link" href="{% url 'tabela_produtos' %}">Produtos</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#">Orçamentos/Pedidos</a>
@@ -24,13 +24,13 @@
     <div class="row m-auto justify-content-md-between mt-5">
         <div class="col-md-1"></div>
         <div class="col-md-5 col-6 col-sm-7">
-            <h1>Cadastros</h1>
+            <h2>Cadastros</h2>
             <a href="{% url 'cadastrar_cliente' %}">
                 <button class="btn btn-secondary">Cadastrar cliente</button>
             </a>
         </div>
         <div class="col-md-4 col-6 col-sm-5">
-            <h1>Orçamentos</h1>
+            <h2>Orçamentos</h2>
             <a href="#">
                 <button class="btn btn-secondary">Novo orçamento</button>
             </a>

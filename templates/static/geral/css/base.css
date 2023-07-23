@@ -33,6 +33,19 @@ input {
 }
 
 .scrollbar {
-    Overflow-y: scroll;
+    overflow-y: scroll;
     height: 170px;
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 10px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+.scrollbar::-webkit-scrollbar-corner {
+    background-color: #f0f0f0;
 }

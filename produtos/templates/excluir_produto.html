@@ -9,10 +9,13 @@
             <a class="nav-link" href="#">Caixa</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Produtos</a>
+            <a class="nav-link" href="{% url 'tabela_produtos' %}">Produtos</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#">Orçamentos/Pedidos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'cadastrar_cliente' %}">Clientes</a>
         </li>
     </ul>
 </div>
@@ -20,13 +23,14 @@
 {% endblock %} {% block 'body' %}
 <div class="container">
     <div class="row">
-        <div class="col-md-5 m-auto">
-            <div class="display-6">Exclusão de produtos</div>
-            <p>Deseja excluir o registro: <strong>{{ object }}</strong>?</p>
+        <div class="col-md-5 m-auto text-center">
+            <div class="display-6 mt-4 mb-5">Excluir produtos</div>
+            <p class="mb-4 fs-5">Deseja excluir o registro: <strong>{{ object | title }}</strong>?</p>
             <form action="" method="POST">
-                {% csrf_token %} {{ form.as_p }}
-
                 <button class="btn btn-danger" type="submit">Excluir</button>
+                <a href="{% url 'tabela_produtos' %}">
+                    <button class="btn btn-secondary" type="button">Voltar</button>
+                </a>
 
             </form>
         </div>

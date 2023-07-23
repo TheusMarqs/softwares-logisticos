@@ -4,7 +4,7 @@ from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Produto
-from .forms import ProdutoForm
+from .forms import ProdutoForm, EditProdutoForm
 
 class ProdutoCreate(LoginRequiredMixin, CreateView, ListView):
     model = Produto
@@ -12,12 +12,26 @@ class ProdutoCreate(LoginRequiredMixin, CreateView, ListView):
     template_name = 'tabela_produtos.html'
     success_url = reverse_lazy('tabela_produtos')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['txtBotao'] = 'Cadastrar'
 
-class ProdutoUpdate(LoginRequiredMixin, UpdateView):
+        return context
+    
+
+
+class ProdutoUpdate(LoginRequiredMixin, UpdateView, ListView):
     model = Produto
-    fields = ['nome', 'valorCusto', 'margemCusto', 'valorVenda']
+    form_class = EditProdutoForm
     template_name = 'tabela_produtos.html'
     success_url = reverse_lazy('tabela_produtos')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['txtBotao'] = 'Editar'
+
+        return context
+    
 
 class ProdutoDelete(LoginRequiredMixin, DeleteView):
     model = Produto

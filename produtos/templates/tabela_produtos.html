@@ -18,22 +18,26 @@
 </div>
 
 {% endblock %} {% block 'body' %}
-<div class="container">
+<div class="container pb-5">
     <div class="row">
-        <div class="col-md-6 m-auto">
-            <div class="display-6 text-center mb-3 mt-4">Cadastro de produtos</div>
+        <div class="col-sm-9 col-md-8 m-auto">
+            <div class="display-6  text-center mb-5 mt-4">Cadastro de produtos</div>
             <form action="" method="POST">
                 {% csrf_token %} {{ form|crispy }}
-                
-                
 
-                <button class="btn btn-success mt-2 mb-4" type="submit">Cadastrar</button>
+
+
+                <button class="btn btn-success mt-2 mb-5" type="submit" style="width: 110px;">{{ txtBotao }}</button> {% if txtBotao == 'Editar' %}
+                <a href="{% url 'tabela_produtos' %}">
+                    <button class="btn btn-secondary mt-2 mb-5 ms-1" type="button" style="width: 80px;">Voltar</button>
+                </a>
+                {% endif %}
 
             </form>
         </div>
     </div>
     <div class="row">
-        <div class="table-responsive scrollbar">
+        <div class="table-responsive scrollbar pe-3">
             <table class="table table-secondary">
                 <thead>
                     <tr>
@@ -48,9 +52,9 @@
 
                     {% for produto in object_list %}
                     <tr>
-                        <td class="ps-lg-5 ps-md-4">{{ produto.nome }}</td>
+                        <td class="ps-lg-5 ps-md-4">{{ produto.nome | title }}</td>
                         <td>{{ produto.valorCusto }}</td>
-                        <td>{{ produto.margemCusto }}</td>
+                        <td>{{ produto.margemCusto }}%</td>
                         <td>{{ produto.valorVenda }}</td>
                         <td>
                             <a href="{% url 'update_produto' produto.pk  %}" title="Editar" style="color: black;">

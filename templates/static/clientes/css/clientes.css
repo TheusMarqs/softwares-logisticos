@@ -1,0 +1,23 @@
+.submit-cliente {
+    width: 160px !important;
+}
+
+@media (min-width: 992px) {
+    .submit-cliente {
+        margin-left: 40px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .submit-cliente {
+        margin-left: 40px;
+    }
+}
+
+.voltar {
+    width: 80px;
+}
+
+.excluir {
+    width: 100px;
+}
