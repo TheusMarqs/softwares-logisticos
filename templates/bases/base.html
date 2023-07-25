@@ -29,7 +29,7 @@
             <div class="btn-group dropstart">
                 <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <ion-icon class="icons" style="margin-bottom: -5px;" name="person-circle-outline"></ion-icon>
-              {{ request.user }}
+              {{ request.user | title }}
             </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{% url 'meu_perfil' %}">Meu perfil</a></li>

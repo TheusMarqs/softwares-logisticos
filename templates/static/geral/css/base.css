@@ -49,3 +49,7 @@ input {
 .scrollbar::-webkit-scrollbar-corner {
     background-color: #f0f0f0;
 }
+
+select {
+    margin-bottom: 20px !important;
+}

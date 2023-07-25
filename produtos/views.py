@@ -5,8 +5,10 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Produto
 from .forms import ProdutoForm, EditProdutoForm
+from braces.views import GroupRequiredMixin
 
-class ProdutoCreate(LoginRequiredMixin, CreateView, ListView):
+class ProdutoCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView, ListView):
+    group_required = u"gerente"
     model = Produto
     form_class = ProdutoForm
     template_name = 'tabela_produtos.html'
@@ -20,7 +22,8 @@ class ProdutoCreate(LoginRequiredMixin, CreateView, ListView):
     
 
 
-class ProdutoUpdate(LoginRequiredMixin, UpdateView, ListView):
+class ProdutoUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView, ListView):
+    group_required = u"gerente"
     model = Produto
     form_class = EditProdutoForm
     template_name = 'tabela_produtos.html'
@@ -33,7 +36,8 @@ class ProdutoUpdate(LoginRequiredMixin, UpdateView, ListView):
         return context
     
 
-class ProdutoDelete(LoginRequiredMixin, DeleteView):
+class ProdutoDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
+    group_required = u"gerente"
     model = Produto
     template_name = 'excluir_produto.html'
     success_url = reverse_lazy('tabela_produtos')

@@ -6,7 +6,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#">Caixa</a>
+            <a class="nav-link" href="{% url 'controlar_caixa' %}">Caixa</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'tabela_produtos' %}">Produtos</a>
@@ -16,6 +16,9 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'cadastrar_cliente' %}">Clientes</a>
+        </li>
+        <li id="mobile-profile" class="nav-item">
+            <a class="nav-link" href="{% url 'meu_perfil' %}">Meu perfil</a>
         </li>
     </ul>
 </div>
