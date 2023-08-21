@@ -9,7 +9,7 @@
             <a class="nav-link" href="{% url 'controlar_caixa' %}">Caixa</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Orçamentos/Pedidos</a>
+            <a class="nav-link" href="{% url 'registros' %}">Orçamentos/Pedidos</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'cadastrar_cliente' %}">Clientes</a>
@@ -24,10 +24,12 @@
 <div class="container pb-5">
     <div class="row">
         <div class="col-sm-9 col-md-8 m-auto">
+            {% if messages %} {% for message in messages %}
+            <div class="alert {{ message.tags }} mt-3">{{ message }}</div>
+            {% endfor %} {% endif %}
             <div class="display-6  text-center mb-5 mt-4">Cadastro de produtos</div>
             <form action="" method="POST">
                 {% csrf_token %} {{ form|crispy }}
-
 
 
                 <button class="btn btn-success mt-2 mb-5" type="submit" style="width: 110px;">{{ txtBotao }}</button> {% if txtBotao == 'Editar' %}
@@ -40,6 +42,14 @@
         </div>
     </div>
     <div class="row">
+        <hr class="pb-3"> {% if txtBotao == 'Cadastrar' %}
+        <form action="?" method="GET" class="mb-2">
+            <input class="search" type="text" name="nome" value="{{ request.GET.nome }}" autocomplete="off" placeholder="Nome do produto">
+            <button type="submit" class="btn" style="border: 0;"><ion-icon style="font-size: 22px;" name="search-outline"></ion-icon></button>
+            <a href="{% url 'tabela_produtos' %}" class="btn btn-light">Limpar</a>
+        </form>
+        {% endif %}
+
         <div class="table-responsive scrollbar pe-3">
             <table class="table table-secondary">
                 <thead>
@@ -51,8 +61,7 @@
                         <th>Opções</th>
                     </tr>
                 </thead>
-                <tbody class="table-group-divider">
-
+                <tbody>
                     {% for produto in object_list %}
                     <tr>
                         <td class="ps-lg-5 ps-md-4">{{ produto.nome | title }}</td>
@@ -72,11 +81,12 @@
                     <tr>
                         <td colspan="5">Nenhum campo registrado</td>
                     </tr>
-
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+
 {% endblock %}

@@ -13,7 +13,7 @@
             <a class="nav-link" href="{% url 'tabela_produtos' %}">Produtos</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Orçamentos/Pedidos</a>
+            <a class="nav-link" href="{% url 'registros' %}">Orçamentos/Pedidos</a>
         </li>
         <li id="mobile-profile" class="nav-item">
             <a class="nav-link" href="{% url 'meu_perfil' %}">Meu perfil</a>
@@ -23,11 +23,24 @@
 
 {% endblock %} {% block 'body' %}
 <div class="container pb-5">
+    {% if messages %}
+        {% for message in messages %}
+                <div class="alert {{ message.tags }} mt-3">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
     <div class="display-6 text-center mb-5 mt-4">Cadastro de clientes</div>
     <form action="" method="POST">
         {% csrf_token %} {% crispy form %}
     </form>
     <div class="row mt-5">
+        <hr class="pb-3">
+        {% if submitCliente == 'Cadastrar' %}
+            <form action="?" method="GET" class="mb-2">
+                <input class="search" type="text" name="nome" value="{{ request.GET.nome }}" autocomplete="off" placeholder="Nome do cliente">
+                <button type="submit" class="btn" style="border: 0;"><ion-icon style="font-size: 22px;" name="search-outline"></ion-icon></button>
+                <a href="{% url 'cadastrar_cliente' %}" class="btn btn-light">Limpar</a>
+            </form>
+        {% endif %}
         <div class="table-responsive scrollbar pe-3">
             <table class="table table-secondary">
                 <thead>

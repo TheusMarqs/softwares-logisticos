@@ -1,0 +1,154 @@
+{% extends 'bases/base.html' %} {% load static %} {% load crispy_forms_tags %} {% block 'head' %} {% endblock %} {% block 'buttons' %}
+<div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'tabela_produtos' %}">Produtos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'registros' %}">Orçamentos/Pedidos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'cadastrar_cliente' %}">Clientes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'controlar_caixa' %}">Caixa</a>
+        </li>
+        <li id="mobile-profile" class="nav-item">
+            <a class="nav-link" href="{% url 'meu_perfil' %}">Meu perfil</a>
+        </li>
+    </ul>
+</div>
+
+{% endblock %} {% block 'body' %}
+
+
+
+<div class="container-fluid">
+    <div class="col-sm-9 col-md-8 m-auto">
+        {% if messages %} {% for message in messages %}
+        <div class="alert {{ message.tags }} mt-3">{{ message }}</div>
+        {% endfor %} {% endif %}
+        <div class="display-6  text-center mb-5 mt-5">Nome da empresa</div>
+    </div>
+</div>
+<form id="registro-form" class="main-form" action="?" method="POST">
+    {% crispy form %}
+</form>
+
+
+
+<script>
+
+    function update_cliente_data(select) {
+        // Check if select is undefined and get it from event.target
+        if (!select) {
+            select = event.target;
+        }
+
+        // Rest of the function remains the same
+        var selectedOptionElement = select.options[select.selectedIndex];
+        // Parse the JSON data
+        if (selectedOptionElement.dataset.cliente) {
+            try {
+                var clienteData = JSON.parse(selectedOptionElement.dataset.cliente);
+                document.getElementById('id_nome').value = clienteData.nome;
+                document.getElementById('id_cpf').value = clienteData.cpf;
+                document.getElementById('id_email').value = clienteData.email !== 'None' ? clienteData.email : '';
+                document.getElementById('id_rg').value = clienteData.rg !== 'None' ? clienteData.rg : '';
+                document.getElementById('id_cidade').value = clienteData.cidade;
+                document.getElementById('id_telefone').value = clienteData.telefone;
+                document.getElementById('id_numero').value = clienteData.numero;
+                document.getElementById('id_rua').value = clienteData.rua !== 'None' ? clienteData.rua : '';
+                document.getElementById('id_bairro').value = clienteData.bairro;
+            } catch (error) {
+                console.error('Erro ao analisar os dados do cliente:', error);
+            }
+        } else {
+            console.error('Atributo "data-cliente" não encontrado no elemento selecionado.');
+        }
+    }
+
+    function update_produto_data(select, prefix) {
+        // Check if select is undefined and get it from event.target
+        if (!select) {
+            select = event.target;
+        }
+
+        // Rest of the function remains the same
+        var selectedOptionElement = select.options[select.selectedIndex];
+        // Parse the JSON data
+        if (selectedOptionElement.dataset.produto) {
+            try {
+                console.log(selectedOptionElement.dataset.produto);
+                var produtoData = JSON.parse(selectedOptionElement.dataset.produto);
+                var valorFormatado = produtoData.valor.replace(',', '.');
+                document.getElementById('id_item_set-' + prefix + '-valorProd').value = valorFormatado;
+            } catch (error) {
+                console.error('Erro ao analisar os dados do produto:', error);
+            }
+        } else {
+            console.error('Atributo "data-produto" não encontrado no elemento selecionado.');
+        }
+    }
+
+    var totalPedido = 0;
+
+    function calculateTotal(input) {
+        var row = input.closest('.row');
+        var quantidadeInput = row.querySelector('[name$="quantidade"]');
+        var tamanhoInput = row.querySelector('[name$="tamanho"]');
+        var valorProdInput = row.querySelector('[name$="valorProd"]');
+        var totalInput = row.querySelector('[name$="totalProd"]');
+
+        if (!quantidadeInput || !tamanhoInput || !valorProdInput || !totalInput) {
+            return;
+        }
+
+        var quantidade = parseFloat(quantidadeInput.value) || 0;
+        var tamanho = parseFloat(tamanhoInput.value) || 0;
+        var valorProd = parseFloat(valorProdInput.value) || 0;
+        var valorTotal;
+
+        if (isNaN(tamanho) || tamanho == '') {
+            valorTotal = quantidade * valorProd;
+        } else {
+            valorTotal = quantidade * tamanho * valorProd;
+        }
+
+        totalInput.value = valorTotal.toFixed(2);
+
+        totalPedido = 0;
+
+        var todasLinhas = document.querySelectorAll('.row');
+        todasLinhas.forEach(function(linha) {
+            var totalLinhaInput = linha.querySelector('[name$="totalProd"]');
+            if (totalLinhaInput) {
+                var totalLinha = parseFloat(totalLinhaInput.value) || 0;
+                totalPedido += totalLinha;
+            }
+        });
+
+        var totalPedidoInput = document.getElementById('id_totalPedido');
+        if (totalPedidoInput) {
+            totalPedidoInput.value = totalPedido.toFixed(2);
+        }
+    }
+
+
+
+    function formatarNumero(input) {
+        const valor = parseFloat(input.value);
+        if (!isNaN(valor)) {
+            input.value = valor.toFixed(2).replace('.', ',');
+        }
+    }
+
+</script>
+
+
+
+{% endblock %}

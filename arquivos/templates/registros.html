@@ -1,0 +1,112 @@
+{% extends 'bases/base.html' %} {% load static %} {% block 'head' %} {% endblock %} {% block 'buttons' %}
+<div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'tabela_produtos' %}">Produtos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'cadastrar_cliente' %}">Clientes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'controlar_caixa' %}">Caixa</a>
+        </li>
+        <li id="mobile-profile" class="nav-item">
+            <a class="nav-link" href="{% url 'meu_perfil' %}">Meu perfil</a>
+        </li>
+    </ul>
+</div>
+
+{% endblock %} 
+{% block 'body' %}
+    <div class="container mb-5">
+        <div class="row pt-5">
+            <div class="display-6 text-center mb-4">
+                Orçamentos
+            </div>
+            <div class="table-responsive scrollbar pe-3">
+                <table class="table table-secondary">
+                    <thead>
+                        <tr>
+                            <th style="padding-left: 44px">ID</th>
+                            <th>Nome</th>
+                            <th>Bairro</th>
+                            <th>Data do registro</th>
+                            <th>Opções</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {% for orcamento in orcamentos %}
+                        <tr>
+                            <td class="ps-5">{{ orcamento.pk }}</td>
+                            <td>{{ orcamento.nome | title }} </td>
+                            <td>{{ orcamento.bairro | title }} </td>
+                            <td>{{ orcamento.data | date:"d/m/Y"}}</td>
+                            <td>
+                                <a href="{% url 'update_registro' orcamento.pk %}" title="Editar" style="color: black;">
+                                    <ion-icon class="icons" name="create-outline"></ion-icon>
+                                </a>
+                                <a href="#" title="Excluir" style="color: black;">
+                                    <ion-icon class="icons" name="trash-outline"></ion-icon>
+                                </a>
+                            </td>
+                            
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">Nenhum campo registrado</td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row pt-5">
+            <div class="display-6 text-center mb-4">
+                Pedidos
+            </div>
+            <div class="table-responsive scrollbar pe-3">
+                <table class="table table-secondary">
+                    <thead>
+                        <tr>
+                            <th style="padding-left: 44px">ID</th>
+                            <th>Nome</th>
+                            <th>Bairro</th>
+                            <th>Data do registro</th>
+                            <th>Opções</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {% for pedido in pedidos %}
+                        <tr>
+                            <td class="ps-5">{{ pedido.pk }}</td>
+                            <td>{{ pedido.nome | title }} </td>
+                            <td>{{ pedido.bairro | title }} </td>
+                            <td>{{ pedido.data | date:"d/m/Y"}}</td>
+                            <td>
+                                <a href="{% url 'update_registro' pedido.pk %}" title="Editar" style="color: black;">
+                                    <ion-icon class="icons" name="create-outline"></ion-icon>
+                                </a>
+                                <a href="#" title="Excluir" style="color: black;">
+                                    <ion-icon class="icons" name="trash-outline"></ion-icon>
+                                </a>
+                            </td>
+                            
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">Nenhum campo registrado</td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

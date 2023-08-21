@@ -8,7 +8,7 @@
             <a class="nav-link" href="{% url 'tabela_produtos' %}">Produtos</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Orçamentos/Pedidos</a>
+            <a class="nav-link" href="{% url 'registros' %}">Orçamentos/Pedidos</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'cadastrar_cliente' %}">Clientes</a>
@@ -31,7 +31,7 @@
         </div>
         <div class="col-md-4 col-6 col-sm-5">
             <h2>Orçamentos</h2>
-            <a href="#">
+            <a href="{% url 'registrar' %}">
                 <button class="btn btn-secondary">Novo orçamento</button>
             </a>
         </div>

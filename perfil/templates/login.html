@@ -2,11 +2,19 @@
 <div class="container">
     <div class="row">
         <div class="col-md-5 m-auto">
+            {% if request.user.is_authenticated %}
+            <h3 class="mt-4">Ação não permitida</h3>
+            <hr>
+            <p>Houve algum problema para processar a ação desejada ou você não tem permissão para isso</p>
+            <a href="{% url 'home' %}">
+                <button class="btn btn-secondary mt-1">Voltar</button> {% else %}
+            </a>
             <div class="display-6 text-center mt-4 mb-3">Login</div>
             <form method="post">
                 {% csrf_token %} {{ form|crispy }}
                 <button class="btn btn-success mt-3" style="width: 100px;" type="submit">Entrar</button>
             </form>
+            {% endif %}
         </div>
     </div>
 </div>

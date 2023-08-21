@@ -9,7 +9,7 @@
             <a class="nav-link" href="{% url 'tabela_produtos' %}">Produtos</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Orçamentos/Pedidos</a>
+            <a class="nav-link" href="{% url 'registros' %}">Orçamentos/Pedidos</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'cadastrar_cliente' %}">Clientes</a>
@@ -24,6 +24,11 @@
 <div class="container pb-5">
     <div class="row">
         <div class="col-sm-9 col-md-8 m-auto">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{ message.tags }} mt-3">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
             <div class="display-6  text-center mb-5 mt-4">Controle de caixa</div>
             <form action="" method="POST">
                 {% csrf_token %} {{ form|crispy }}
@@ -31,14 +36,28 @@
 
 
                 <button class="btn btn-success mt-2 mb-5" type="submit" style="width: 110px;">Salvar</button>
-                <a href="{% url 'exportar_pdf' %}" target="_blank">
-                    <button class="btn btn-secondary mt-2 mb-5 ms-2" type="button">Exportar PDF</button>
-                </a>
+                {% if editar %}
+                    <a href="{% url 'controlar_caixa' %}">
+                        <button class="btn btn-secondary mt-2 mb-5 ms-2" type="button">Voltar</button>
+                    </a>
+                {% else %}
+                    <a href="{% url 'exportar_pdf' %}" target="_blank">
+                        <button class="btn btn-secondary mt-2 mb-5 ms-2" type="button">Exportar PDF</button>
+                    </a>
+                {% endif %}
 
             </form>
         </div>
     </div>
     <div class="row">
+    <hr class="pb-3">
+        {% if editar == False %}
+            <form action="?" method="GET" class="mb-2">
+                <input class="search" type="text" name="descricao" value="{{ request.GET.descricao }}" autocomplete="off" placeholder="Descrição">
+                <button type="submit" class="btn" style="border: 0;"><ion-icon style="font-size: 22px;" name="search-outline"></ion-icon></button>
+                <a href="{% url 'controlar_caixa' %}" class="btn btn-light">Limpar</a>
+            </form>
+        {% endif %}
         <div class="table-responsive scrollbar pe-3">
             <table class="table table-secondary">
                 <thead>
@@ -47,6 +66,7 @@
                         <th>Data</th>
                         <th>Valor</th>
                         <th>Descrição</th>
+                        <th>Opções</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
@@ -60,10 +80,18 @@
                         <td>{{ transacoes.dataTrans | date:"d/m/Y" }}</td>
                         <td>{{ transacoes.valor }}</td>
                         <td>{{ transacoes.descricao }} </td>
+                        <td>
+                            <a href="{% url 'update_caixa' transacoes.pk  %}" title="Editar" style="color: black;">
+                                <ion-icon class="icons" name="create-outline"></ion-icon>
+                            </a>
+                            <a href="{% url 'delete_caixa' transacoes.pk  %}" title="Excluir" style="color: black;">
+                                <ion-icon class="icons" name="trash-outline"></ion-icon>
+                            </a>
+                        </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="3">Nenhum campo registrado</td>
+                        <td colspan="5">Nenhum campo registrado</td>
                     </tr>
 
                     {% endfor %}

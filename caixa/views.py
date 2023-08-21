@@ -12,6 +12,8 @@ from io import BytesIO
 from datetime import datetime
 import locale
 from braces.views import GroupRequiredMixin
+from django.contrib import messages
+from django.contrib.messages import constants
 
 class ControlarCaixa(GroupRequiredMixin, LoginRequiredMixin, CreateView, ListView):
     group_required = [u"financeiro", u"gerente"]
@@ -19,6 +21,63 @@ class ControlarCaixa(GroupRequiredMixin, LoginRequiredMixin, CreateView, ListVie
     fields = ['tipo', 'valor', 'descricao']
     template_name = 'controlar_caixa.html'
     success_url = reverse_lazy('controlar_caixa')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        transacoes = Transacoes.objects.all()
+        tipo_nome = ''
+        for t in transacoes:
+            if t.tipo == 'E':
+                tipo_nome = 'Entrada'
+            else:
+                tipo_nome = 'Saída'
+        messages.add_message(self.request, constants.SUCCESS, f'{tipo_nome} registrada com sucesso!')
+        return response
+
+    def get_queryset(self):
+        txt_desc = self.request.GET.get('descricao')
+        caixa = Transacoes.objects.filter(dataTrans__day = datetime.now().day)
+
+        if txt_desc:
+            caixa = caixa.filter(descricao__icontains=txt_desc)
+
+        return caixa
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['editar'] = False
+
+        return context
+    
+class CaixaUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView, ListView):
+    group_required = [u"financeiro", u"gerente"]
+    model = Transacoes
+    fields = ['tipo', 'valor', 'descricao']
+    template_name = 'controlar_caixa.html'
+    success_url = reverse_lazy('controlar_caixa')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.add_message(self.request, constants.SUCCESS, 'Transação atualizada com sucesso!')
+        return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['editar'] = True
+
+        return context
+
+class CaixaDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
+    group_required = [u"financeiro", u"gerente"]
+    model = Transacoes
+    template_name = 'excluir_caixa.html'
+    success_url = reverse_lazy('controlar_caixa')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.add_message(self.request, constants.SUCCESS, 'Transação removida com sucesso!')
+        return response
+
 
 def exportar_pdf(request):
     locale.setlocale(locale.LC_TIME, 'pt_BR.utf8')
