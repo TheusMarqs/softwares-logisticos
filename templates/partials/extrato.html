@@ -34,6 +34,18 @@
                             <td>{{ caixa.valor }}</td>
                             <td>{{ caixa.descricao }} </td>
                         </tr>
+                        {% if forloop.last %}
+
+                    <div class="col-md-3 ms-3 float-end">
+                        <label>Valor total mensal: </label>
+                        <input class="form-control" type="text" disabled value="R${{transacoes.valorTotalMensal}}">
+                    </div>
+                    <div class="col-md-3 float-end">
+                        <label>Valor total diário: </label>
+                        <input class="form-control" type="text" disabled value="R${{transacoes.valorTotalDiario}}">
+                    </div>
+
+                    {% endif %}
                         {% empty %}
                         <tr>
                             <td colspan="4">Nenhum campo registrado</td>

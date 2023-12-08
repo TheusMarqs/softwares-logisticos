@@ -20,7 +20,13 @@
     </ul>
 </div>
 {% endblock %} {% block 'body' %}
-    <h1>Bem-vindo à página inicial!</h1>
-    <a href="{% url 'logout' %}">Sair</a>
+<div class="row">
+    <div class="col-md-6 justify-content-center m-auto">
+        <h1 class="mt-4 mb-4 text-center">{{request.user | title}}</h1>
+        <a href="{% url 'logout' %}">
+            <button class="btn btn-secondary m-auto justify-content-center d-flex">Sair da conta</button>
+        </a>
+    </div>
+</div>
 
 {% endblock %}

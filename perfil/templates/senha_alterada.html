@@ -1,0 +1,34 @@
+{% extends 'bases/base.html' %} {% load static %} {% load crispy_forms_tags %} {% block 'head' %} {% endblock %}
+{% block 'buttons' %}
+<div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'controlar_caixa' %}">Caixa</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'tabela_produtos' %}">Produtos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'registros' %}">Orçamentos/Pedidos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'cadastrar_cliente' %}">Clientes</a>
+        </li>
+        <li id="mobile-profile" class="nav-item">
+            <a class="nav-link" href="{% url 'meu_perfil' %}">Meu perfil</a>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+{% block 'body' %} {% block 'perfil' %} {% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-7 m-auto mt-5">
+            <div class="display-6 text-center mt-4 mb-3">Senha alterada com sucesso!</div>
+            <a href="{% url 'home' %}">
+                <button class="btn btn-success mt-3 m-auto justify-content-center d-flex" style="width: 100px;" type="submit">Voltar</button>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -5,6 +5,7 @@ from django.http import FileResponse, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Transacoes
 from django.template.loader import render_to_string
+from django.shortcuts import render
 import os
 from django.conf import settings
 from weasyprint import HTML
@@ -36,7 +37,7 @@ class ControlarCaixa(GroupRequiredMixin, LoginRequiredMixin, CreateView, ListVie
 
     def get_queryset(self):
         txt_desc = self.request.GET.get('descricao')
-        caixa = Transacoes.objects.filter(dataTrans__day = datetime.now().day)
+        caixa = Transacoes.objects.all()
 
         if txt_desc:
             caixa = caixa.filter(descricao__icontains=txt_desc)
@@ -45,9 +46,12 @@ class ControlarCaixa(GroupRequiredMixin, LoginRequiredMixin, CreateView, ListVie
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         context['editar'] = False
 
         return context
+
+
     
 class CaixaUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView, ListView):
     group_required = [u"financeiro", u"gerente"]
